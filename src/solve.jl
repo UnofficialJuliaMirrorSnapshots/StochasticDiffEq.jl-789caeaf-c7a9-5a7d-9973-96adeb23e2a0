@@ -37,8 +37,8 @@ function DiffEqBase.__init(
   failfactor = 2,
   beta2=beta2_default(alg),
   beta1=beta1_default(alg,beta2),
-  delta=1//6,
-  maxiters = 1000000,
+  delta=delta_default(alg),
+  maxiters = adaptive ? 1000000 : typemax(Int),
   dtmax=eltype(prob.tspan)((prob.tspan[end]-prob.tspan[1])),
   dtmin = typeof(one(eltype(prob.tspan))) <: AbstractFloat ? eps(eltype(prob.tspan)) :
           typeof(one(eltype(prob.tspan))) <: Integer ? 0 :
@@ -137,7 +137,7 @@ function DiffEqBase.__init(
 
   if isinplace(prob) && typeof(u) <: AbstractArray && eltype(u) <: Number && uBottomEltypeNoUnits == uBottomEltype # Could this be more efficient for other arrays?
     if !(typeof(u) <: ArrayPartition)
-      rate_prototype = similar(u,typeof(oneunit(uBottomEltype)/oneunit(tType)))
+      rate_prototype = recursivecopy(u)
     else
       rate_prototype = similar(u, typeof.(oneunit.(recursive_bottom_eltype.(u.x))./oneunit(tType))...)
     end
@@ -221,7 +221,7 @@ function DiffEqBase.__init(
     rand_prototype = zero(u/u) # Strip units and type info
     randType = typeof(rand_prototype)
   else
-    randElType = typeof(recursive_one(u)) # Strip units and type info
+    randElType = uBottomEltypeNoUnits # Strip units and type info
     if is_diagonal_noise(prob)
       if typeof(u) <: SArray
         rand_prototype = zero(u) # TODO: Array{randElType} for units
