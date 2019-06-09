@@ -1,4 +1,4 @@
-using StochasticDiffEq, DiffEqProblemLibrary, Test, Random
+using StochasticDiffEq, DiffEqProblemLibrary, Test, Random, DiffEqDevTools
 using DiffEqProblemLibrary.SDEProblemLibrary: importsdeproblems; importsdeproblems()
 import DiffEqProblemLibrary.SDEProblemLibrary: prob_sde_linear_stratonovich, prob_sde_2Dlinear_stratonovich
 Random.seed!(100)
@@ -28,6 +28,9 @@ sim = test_convergence(dts,prob,RKMil(interpretation=:Stratonovich),numMonte=Int
 
 sim  = test_convergence(dts,prob,ImplicitRKMil(interpretation=:Stratonovich),numMonte=Int(5e2))
 @test abs(sim.𝒪est[:l2]-1) < 0.1
+
+sim  = test_convergence(dts,prob,SROCK1(interpretation=:Stratonovich),numMonte=Int(2e2))
+@test abs(sim.𝒪est[:l2]-1) < 0.15
 
 println("Now 2D")
 
@@ -66,6 +69,9 @@ sim  = test_convergence(dts,prob,ImplicitRKMil(theta=1,interpretation=:Stratonov
 
 sim  = test_convergence(dts,prob,ImplicitRKMil(symplectic=true,interpretation=:Stratonovich),
                         numMonte=Int(1e2))
+@test abs(sim.𝒪est[:l2]-1) < 0.1
+
+sim  = test_convergence(dts,prob,SROCK1(interpretation=:Stratonovich),numMonte=Int(1e2))
 @test abs(sim.𝒪est[:l2]-1) < 0.1
 
 Random.seed!(200)
