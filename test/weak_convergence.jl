@@ -24,6 +24,21 @@ sim2 = test_convergence(dts,prob,SROCK1(),numMonte=Int(1e4),
 @test abs(sim2.𝒪est[:weak_final]-1) < 0.3
 @test abs(sim2.𝒪est[:weak_l2]-1) < 0.3
 @test abs(sim2.𝒪est[:weak_l∞]-1) < 0.3
+sim2 = test_convergence(dts,prob,SROCK2(),numMonte=Int(1e5),
+                        weak_timeseries_errors=true,dense_errors=true)
+@test abs(sim2.𝒪est[:weak_final]-2) < 0.3
+@test abs(sim2.𝒪est[:weak_l2]-2) < 0.3
+@test abs(sim2.𝒪est[:weak_l∞]-2) < 0.3
+sim2 = test_convergence(dts,prob,SROCKEM(strong_order_1=false),numMonte=Int(1e4),
+                        weak_timeseries_errors=true,dense_errors=true)
+@test abs(sim2.𝒪est[:weak_final]-1) < 0.3
+@test abs(sim2.𝒪est[:weak_l2]-1) < 0.3
+@test abs(sim2.𝒪est[:weak_l∞]-1) < 0.3
+sim2 = test_convergence(dts,prob,SROCKEM(),numMonte=Int(1e4),
+                        weak_timeseries_errors=true,dense_errors=true)
+@test abs(sim2.𝒪est[:weak_final]-1) < 0.3
+@test abs(sim2.𝒪est[:weak_l2]-1) < 0.3
+@test abs(sim2.𝒪est[:weak_l∞]-1) < 0.3
 sim2 = test_convergence(dts,prob,WangLi3SMil_A(),numMonte=Int(1e4),
                         weak_timeseries_errors=true,dense_errors=true)
 @test abs(sim2.𝒪est[:weak_final]-1) < 0.3
@@ -81,6 +96,21 @@ sim2 = test_convergence(dts,prob,SROCK1(),numMonte=Int(1e4),
 @test abs(sim2.𝒪est[:weak_final]-1) < 0.3
 @test abs(sim2.𝒪est[:weak_l2]-1) < 0.3
 @test abs(sim2.𝒪est[:weak_l∞]-1) < 0.3
+sim2 = test_convergence(dts,prob,SROCK2(),numMonte=Int(1e5),
+                        weak_timeseries_errors=true)
+@test abs(sim2.𝒪est[:weak_final]-2) < 0.3
+@test abs(sim2.𝒪est[:weak_l2]-2) < 0.3
+@test abs(sim2.𝒪est[:weak_l∞]-2) < 0.3
+sim2 = test_convergence(dts,prob,SROCKEM(strong_order_1=false),numMonte=Int(1e4),
+                        weak_timeseries_errors=true)
+@test abs(sim2.𝒪est[:weak_final]-1) < 0.3
+@test abs(sim2.𝒪est[:weak_l2]-1) < 0.3
+@test abs(sim2.𝒪est[:weak_l∞]-1) < 0.3
+sim2 = test_convergence(dts,prob,SROCKEM(),numMonte=Int(1e4),
+                        weak_timeseries_errors=true)
+@test abs(sim2.𝒪est[:weak_final]-1) < 0.3
+@test abs(sim2.𝒪est[:weak_l2]-1) < 0.3
+@test abs(sim2.𝒪est[:weak_l∞]-1) < 0.3
 sim2 = test_convergence(dts,prob,WangLi3SMil_A(),numMonte=Int(1e4),
                         weak_timeseries_errors=true)
 @test abs(sim2.𝒪est[:weak_final]-1) < 0.3
@@ -134,6 +164,21 @@ sim2 = test_convergence(dts,prob,RKMil(),numMonte=Int(1e4),
 @test abs(sim2.𝒪est[:weak_l2]-1) < 0.3
 @test abs(sim2.𝒪est[:weak_l∞]-1) < 0.3
 sim2 = test_convergence(dts,prob,SROCK1(),numMonte=Int(1e4),
+                        weak_timeseries_errors=true)
+@test abs(sim2.𝒪est[:weak_final]-1) < 0.3
+@test abs(sim2.𝒪est[:weak_l2]-1) < 0.3
+@test abs(sim2.𝒪est[:weak_l∞]-1) < 0.3
+sim2 = test_convergence(dts,prob,SROCK2(),numMonte=Int(1e5),
+                        weak_timeseries_errors=true)
+@test abs(sim2.𝒪est[:weak_final]-2) < 0.3
+@test abs(sim2.𝒪est[:weak_l2]-2) < 0.3
+@test abs(sim2.𝒪est[:weak_l∞]-2) < 0.3
+sim2 = test_convergence(dts,prob,SROCKEM(strong_order_1=false),numMonte=Int(1e4),
+                        weak_timeseries_errors=true)
+@test abs(sim2.𝒪est[:weak_final]-1) < 0.3
+@test abs(sim2.𝒪est[:weak_l2]-1) < 0.3
+@test abs(sim2.𝒪est[:weak_l∞]-1) < 0.3
+sim2 = test_convergence(dts,prob,SROCKEM(),numMonte=Int(1e4),
                         weak_timeseries_errors=true)
 @test abs(sim2.𝒪est[:weak_final]-1) < 0.3
 @test abs(sim2.𝒪est[:weak_l2]-1) < 0.3

@@ -154,9 +154,9 @@ function DiffEqBase.__init(
     noise_rate_prototype = rate_prototype
   else
     if prob isa DiffEqBase.AbstractSDEProblem
-      noise_rate_prototype = prob.noise_rate_prototype
+      noise_rate_prototype = copy(prob.noise_rate_prototype)
     else
-      noise_rate_prototype = prob.rand_prototype
+      noise_rate_prototype = copy(prob.rand_prototype)
     end
   end
 
@@ -236,10 +236,10 @@ function DiffEqBase.__init(
         rand_prototype = (u .- u)./sqrt(oneunit(t))
       end
     elseif prob isa DiffEqBase.AbstractSDEProblem
-      rand_prototype = similar(Vector{randElType},size(noise_rate_prototype,2))
+      rand_prototype = noise_rate_prototype[1,:]
       fill!(rand_prototype,zero(randElType))
     else
-      rand_prototype = prob.rand_prototype
+      rand_prototype = copy(prob.rand_prototype)
     end
     randType = typeof(rand_prototype) # Strip units and type info
   end
