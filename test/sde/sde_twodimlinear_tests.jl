@@ -111,6 +111,26 @@ sim2 = test_convergence(dts,prob,SROCKEM(strong_order_1=false),numMonte=100)
 sim2 = test_convergence(dts,prob,SROCKEM(),numMonte=100)
 @test abs(sim2.𝒪est[:l∞]-1) < 0.2
 
+sim2 = test_convergence(dts,prob,SKSROCK(),numMonte=500)
+@test abs(sim2.𝒪est[:l∞]-0.5) < 0.2
+
+sim = test_convergence(dts,prob,TangXiaoSROCK2(version_num=1),numMonte=100)
+@test abs(sim.𝒪est[:l∞]- 1) < 0.2
+
+sim = test_convergence(dts,prob,TangXiaoSROCK2(version_num=2),numMonte=100)
+@test abs(sim.𝒪est[:l∞]- 1) < 0.2
+
+sim = test_convergence(dts,prob,TangXiaoSROCK2(version_num=3),numMonte=100)
+@test abs(sim.𝒪est[:l∞]- 1) < 0.2
+
+sim = test_convergence(dts,prob,TangXiaoSROCK2(version_num=4),numMonte=100)
+@test abs(sim.𝒪est[:l∞]- 1) < 0.2
+
+sim = test_convergence(dts,prob,TangXiaoSROCK2(version_num=5),numMonte=100)
+@test abs(sim.𝒪est[:l∞]- 1) < 0.2
+
+print(".")
+
 sim3 = test_convergence(dts,prob,SRI(),numMonte=10)
 @test abs(sim3.𝒪est[:final]-1.5) < 0.3
 
