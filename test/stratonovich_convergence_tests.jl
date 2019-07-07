@@ -1,6 +1,6 @@
-using StochasticDiffEq, DiffEqProblemLibrary, Test, Random, DiffEqDevTools
+using StochasticDiffEq, Test, Random, DiffEqDevTools
 using DiffEqProblemLibrary.SDEProblemLibrary: importsdeproblems; importsdeproblems()
-import DiffEqProblemLibrary.SDEProblemLibrary: prob_sde_linear_stratonovich, prob_sde_2Dlinear_stratonovich
+using DiffEqProblemLibrary.SDEProblemLibrary: prob_sde_linear_stratonovich, prob_sde_2Dlinear_stratonovich
 Random.seed!(100)
 dts = 1 ./2 .^(10:-1:2) #14->7 good plot
 
@@ -31,6 +31,9 @@ sim  = test_convergence(dts,prob,ImplicitRKMil(interpretation=:Stratonovich),num
 
 sim  = test_convergence(dts,prob,SROCK1(interpretation=:Stratonovich),numMonte=Int(2e2))
 @test abs(sim.𝒪est[:l2]-1) < 0.15
+
+sim  = test_convergence(dts,prob,KomBurSROCK2(),numMonte=Int(2e2))
+@test abs(sim.𝒪est[:final]-2) < 0.20
 
 println("Now 2D")
 
@@ -73,6 +76,9 @@ sim  = test_convergence(dts,prob,ImplicitRKMil(symplectic=true,interpretation=:S
 
 sim  = test_convergence(dts,prob,SROCK1(interpretation=:Stratonovich),numMonte=Int(1e2))
 @test abs(sim.𝒪est[:l2]-1) < 0.1
+
+sim  = test_convergence(dts,prob,KomBurSROCK2(),numMonte=Int(2e2))
+@test abs(sim.𝒪est[:final]-2) < 0.20
 
 Random.seed!(200)
 sol = solve(prob,EulerHeun(),dt=1/4)

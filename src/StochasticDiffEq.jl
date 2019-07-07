@@ -1,5 +1,3 @@
-__precompile__()
-
 module StochasticDiffEq
 
   import RandomNumbers: Xorshifts
@@ -39,13 +37,15 @@ module StochasticDiffEq
 
   using DiffEqBase: check_error!, is_diagonal_noise, @..
 
-  using DiffEqBase: nlsolvefail, isnewton, set_new_W!, get_W, @iipnlsolve, @oopnlsolve, _vec, _reshape
+  using DiffEqBase: nlsolvefail, isnewton, set_new_W!, get_W, iipnlsolve, oopnlsolve, _vec, _reshape, @getiipnlsolvefields
 
   using DiffEqBase: NLSolver
 
   using DiffEqBase: FastConvergence, Convergence, SlowConvergence, VerySlowConvergence, Divergence
 
   import DiffEqBase: calculate_residuals, calculate_residuals!, nlsolve_f, unwrap_cache, islinear
+
+  import DiffEqBase: iip_get_uf, oop_get_uf, build_jac_config
 
 
   const CompiledFloats = Union{Float32,Float64}
@@ -103,7 +103,7 @@ module StochasticDiffEq
          SRA1, SRA2, SRA3,
          SOSRA, SOSRA2, RKMilCommute,
          SRIW2, SOSRI, SOSRI2, SKenCarp,
-         SROCK1, SROCK2, SROCKEM, SKSROCK, TangXiaoSROCK2,
+         SROCK1, SROCK2, SROCKEM, SKSROCK, TangXiaoSROCK2, KomBurSROCK2,
          WangLi3SMil_A, WangLi3SMil_B, WangLi3SMil_C, WangLi3SMil_D, WangLi3SMil_E, WangLi3SMil_F,
          AutoSOSRI2, AutoSOSRA2
 

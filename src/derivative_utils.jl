@@ -385,16 +385,19 @@ update_W!(integrator, cache, dt, repeat_step) =
 
 function update_W!(nlsolver::NLSolver, integrator, cache::StochasticDiffEqMutableCache, dt, repeat_step)
   if isnewton(nlsolver)
-    calc_W!(integrator, cache, dt, repeat_step)
+    calc_W!(integrator, cache, dt, repeat_step, true)
   end
   nothing
 end
 
 function update_W!(nlsolver::NLSolver, integrator, cache::StochasticDiffEqConstantCache, dt, repeat_step)
   if isnewton(nlsolver)
-    J, W = calc_W!(integrator, cache, dt, repeat_step)
+    J, W = calc_W!(integrator, cache, dt, repeat_step, true)
     DiffEqBase.set_W!(nlsolver, W)
     return J
   end
   nothing
 end
+
+iip_get_uf(alg::StochasticDiffEqAlgorithm,nf,t,p) = DiffEqDiffTools.UJacobianWrapper(nf,t,p)
+oop_get_uf(alg::StochasticDiffEqAlgorithm,nf,t,p) = DiffEqDiffTools.UDerivativeWrapper(nf,t,p)
