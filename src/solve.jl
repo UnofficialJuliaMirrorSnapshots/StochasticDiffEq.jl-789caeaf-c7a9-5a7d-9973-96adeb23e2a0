@@ -19,8 +19,8 @@ function DiffEqBase.__init(
   d_discontinuities= eltype(prob.tspan)[],
   save_idxs = nothing,
   save_everystep = isempty(saveat),
-  save_noise = save_everystep && typeof(prob.f) <: Tuple ?
-               DiffEqBase.has_analytic(prob.f[1]) : DiffEqBase.has_analytic(prob.f),
+  save_noise = save_everystep && (typeof(prob.f) <: Tuple ?
+               DiffEqBase.has_analytic(prob.f[1]) : DiffEqBase.has_analytic(prob.f)),
   save_on = true,
   save_start = save_everystep || isempty(saveat) || typeof(saveat) <: Number ? true : prob.tspan[1] in saveat,
   save_end = save_everystep || isempty(saveat) || typeof(saveat) <: Number ? true : prob.tspan[2] in saveat,
@@ -342,7 +342,7 @@ function DiffEqBase.__init(
   dtcache = tType(dt)
   iter = 0
   u_modified = false
-  eigen_est = 1/oneunit(tType) # rate/state = (state/time)/state = 1/t units
+  eigen_est = one(uBottomEltypeNoUnits)/oneunit(tType) # rate/state = (state/time)/state = 1/t units
   EEst = tTypeNoUnits(1)
   just_hit_tstop = false
   isout = false
