@@ -314,6 +314,19 @@ function calc_W!(nlsolver, integrator, cache::StochasticDiffEqMutableCache, dtga
   is_compos = integrator.alg isa StochasticCompositeAlgorithm
   isnewton = alg isa Union{StochasticDiffEqNewtonAdaptiveAlgorithm, StochasticDiffEqNewtonAlgorithm}
 
+  if W_transform && DiffEqBase.has_Wfact_t(f)
+    f.Wfact_t(W, u, p, dtgamma, t)
+    is_compos && (integrator.eigen_est = opnorm(LowerTriangular(W), Inf) + inv(dtgamma)) # TODO: better estimate
+    return nothing
+  elseif !W_transform && DiffEqBase.has_Wfact(f)
+    f.Wfact(W, u, p, dtgamma, t)
+    if is_compos
+      opn = opnorm(LowerTriangular(W), Inf)
+      integrator.eigen_est = (opn + one(opn)) / dtgamma # TODO: better estimate
+    end
+    return nothing
+  end
+
   # fast pass
   # we only want to factorize the linear operator once
   new_jac = true
